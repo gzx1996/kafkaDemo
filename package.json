@@ -1,0 +1,26 @@
+{
+  "name": "kafkademo",
+  "version": "1.0.0",
+  "description": "kafka demo with kafka-node",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gzx1996/kafkaDemo.git"
+  },
+  "keywords": [
+    "node",
+    "kafka"
+  ],
+  "author": "norman",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/gzx1996/kafkaDemo/issues"
+  },
+  "homepage": "https://github.com/gzx1996/kafkaDemo#readme",
+  "dependencies": {
+    "kafka-node": "^5.0.0"
+  }
+}
