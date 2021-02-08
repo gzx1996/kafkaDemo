@@ -47,9 +47,7 @@ const sendMessage = (message, topic, partition ) => {
 const run = () => {
     let count = 0;
     setInterval(async () => {
-        let data = {
-            msg: `current count is ${count}`
-        };
+        let data = `current count is ${count}`;
         count ++;
         await sendMessage(data);
     }, 1000);
