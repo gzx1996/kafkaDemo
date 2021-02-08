@@ -23,25 +23,23 @@ const sendMessage = (message, topic, partition ) => {
             m = Buffer.from(JSON.stringify(m));
             o.push({
                 topic: topic || 'test-kafka',
-                message: m,
+                messages: m,
                 partition: partition || 0,
                 attributes: 1,
                 timestamp: Date.now()
             })
         })
     } else {
-        message = Buffer.from(JSON.stringify(message));
+        let messages = Buffer.from(JSON.stringify(message));
         o = [{
             topic: topic || 'test-kafka',
-            message,
+            messages,
             partition: partition || 0,
             attributes: 1,
             timestamp: Date.now()
         }]
     }
-    producer.send(o, (err, data)=> {
-        console.log(err, data)
-    });
+    producer.send(o, (err, data)=> {});
 }
 
 const run = () => {

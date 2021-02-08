@@ -12,7 +12,6 @@ const options = {
   autoCommit: true,
   fetchMaxWaitMs: 1000,
   fetchMaxBytes: 1024 * 1024
-  // encoding: 'buffer'
 }
 
 const consumer = new kafka.Consumer(client, topics, options)
@@ -20,7 +19,12 @@ const consumer = new kafka.Consumer(client, topics, options)
 consumer.on('message', function (message) {
 
   // Read string into a buffer.
-  console.log('message recieved:', message,toString('utf8'));
+  console.log('message recieved:');
+  if (!message || !message.value) return;
+
+  let buffer = Buffer.from(message.value, 'binary');
+
+  console.log(buffer.toString());
 })
 
 consumer.on('error', function (err) {
