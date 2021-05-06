@@ -1,58 +1,33 @@
-const  kafka = require('kafka-node');
+const { Kafka } = require('kafkajs')
 
-const client = new kafka.KafkaClient({
-    kafkaHost: 'localhost:9092'
-});
-
-const producer = new kafka.HighLevelProducer(client);
-
-
-producer.on('ready', () => {
-    console.log('kafka server is ready, listened on localhost:9092');
-});
-
-producer.on('error', (err) => {
-    console.log('An error occurred, error message:' + err.message);
+const kafka = new Kafka({
+  brokers: ['localhost:9092']
 })
 
-const sendMessage = (message, topic, partition ) => {
-    let o;
-    if (Array.isArray(message)) {
-        o = [];
-        message.forEach(m => {
-            m = Buffer.from(JSON.stringify(m));
-            o.push({
-                topic: topic || 'test-kafka',
-                messages: m,
-                partition: partition || 0,
-                attributes: 1,
-                timestamp: Date.now()
-            })
-        })
-    } else {
-        let messages = Buffer.from(JSON.stringify(message));
-        o = [{
-            topic: topic || 'test-kafka',
-            messages,
-            partition: partition || 0,
-            attributes: 1,
-            timestamp: Date.now()
-        }]
+const producer = kafka.producer()
+
+const func = async() => {
+    await producer.connect()
+    for(let i = 0; i < 10000; i++) {
+        await producer.send({
+            topic: 'test-topic',
+            messages: [
+                { value: 'now my count is ' + i },
+            ],
+        });
+        await sleep(1000);
     }
-    producer.send(o, (err, data)=> {});
 }
+func();
 
-const run = () => {
-    let count = 0;
-    setInterval(async () => {
-        let data = `current count is ${count}`;
-        count ++;
-        await sendMessage(data);
-    }, 1000);
-}
-
-run();
-
-module.exports = {
-    sendMessage
+const sleep = (delay) => {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            try {
+                resolve(true)
+            } catch (e) {
+                reject(false)
+            }
+        }, delay);
+    }) 
 }

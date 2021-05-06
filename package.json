@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/gzx1996/kafkaDemo#readme",
   "dependencies": {
-    "kafka-node": "^5.0.0"
+    "kafka-node": "^5.0.0",
+    "kafkajs": "^1.15.0"
   }
 }
