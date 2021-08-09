@@ -1,19 +1,22 @@
 const { Kafka } = require('kafkajs')
-
 const kafka = new Kafka({
-  brokers: ['localhost:9092']
+  brokers: ['121.40.252.80:9092']
 })
 
 const producer = kafka.producer()
 
 const func = async() => {
     await producer.connect()
-    for(let i = 0; i < 10000; i++) {
+    let i = 0;
+    while(true) {
+         i ++;
         await producer.send({
             topic: 'test-topic',
             messages: [
                 { value: 'now my count is ' + i },
             ],
+        }).catch(e => {
+            console.log(e)
         });
         await sleep(1000);
     }
